@@ -13,7 +13,7 @@
             --bg-color-bottom: #140502; /* 接近黑色的深橘 */
             
             /* 毛玻璃按鈕設定 */
-            --glass-bg: rgba(255, 255, 255, 0.04); /* 稍微降低透明度適應新背景 */
+            --glass-bg: rgba(255, 255, 255, 0.04);
             --button-hover: rgba(255, 255, 255, 0.1);
             
             /* 文字與強調色 */
@@ -44,9 +44,7 @@
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
-                /* 頂部白色柔光漸層 (增加深邃感) */
                 radial-gradient(circle at 50% 25%, var(--soft-white) 0%, transparent 65%),
-                /* 深橘紅線性漸層 */
                 linear-gradient(to bottom, var(--bg-color-top), var(--bg-color-bottom));
             background-size: cover;
             background-position: center;
@@ -59,13 +57,13 @@
             100% { transform: scale(1.06) translateY(-1%); }
         }
 
-        /* 高質感動態噪點層 (磨沙質感) */
+        /* 動態噪點層 (摩沙質感) */
         body::before {
             content: "";
             position: fixed;
             top: -50%; left: -50%; width: 200%; height: 200%;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3%3Ffilter id='noiseFilter'%3%3FfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3%3F/filter%3%3F%3Frect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3%3F/svg%3%3F");
-            opacity: 0.06; /* 噪點強度 */
+            opacity: 0.06;
             pointer-events: none;
             z-index: -1;
             animation: noiseAnim 0.2s infinite steps(2);
@@ -75,7 +73,6 @@
             0% { transform: translate(0,0); }
             15% { transform: translate(-1.5%,-1%); }
             30% { transform: translate(1.5%,1%); }
-            45% { transform: translate(-2.5%,1.5%); }
             100% { transform: translate(1.5%,-1.5%); }
         }
 
@@ -87,9 +84,9 @@
             animation: containerIn 1.5s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        /* 新頭像樣式 */
+        /* 新頭像樣式 - 使用 Base64 內嵌圖片 */
         .profile-img {
-            width: 145px; /* 稍微放大 */
+            width: 145px;
             height: 145px;
             border-radius: 50%;
             object-fit: cover;
@@ -118,7 +115,7 @@
             margin-bottom: 50px;
             opacity: 0.85;
             letter-spacing: 2.5px;
-            color: #e0d0cc; /* 稍微偏暖的文字色 */
+            color: #e0d0cc;
             text-transform: uppercase;
         }
 
@@ -130,7 +127,7 @@
 
         .link-card {
             background: var(--glass-bg);
-            backdrop-filter: blur(25px); /* 加強毛玻璃 */
+            backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.06);
             padding: 18px 25px;
@@ -155,22 +152,8 @@
         .link-card span {
             flex: 1;
             text-align: center;
-            margin-right: 35px; /* 對齊修正 */
+            margin-right: 35px;
             letter-spacing: 2px;
-        }
-
-        /* 懸停光效 */
-        .link-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
-            transition: 0.6s;
-        }
-
-        .link-card:hover::before {
-            left: 100%;
         }
 
         .link-card:hover {
@@ -185,10 +168,6 @@
             font-size: 0.82rem;
             opacity: 0.6;
             letter-spacing: 1px;
-        }
-
-        .email-section p {
-            margin-bottom: 8px;
         }
 
         .email-section a {
@@ -214,7 +193,7 @@
     <div class="bg-layer"></div>
 
     <div class="container">
-        <img src="https://meee.com.tw/8RV9pjm" alt="Shenirite" class="profile-img">
+        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAEBAQE DASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc6R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpkNmNkZWZnaGlqc6R1dnd4eXq0hYaHiImKkpOUlZaXmJmqipaqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/9oADAMBA4AMDoubleBAA//7gAOQWR4Y2h6XzhSRjlwam0AAAAASUVORK5CYII=" alt="Shenirite" class="profile-img">
         
         <h1>Shenirite</h1>
         <p class="bio">KPOP ． Visual Motion Edit ． Animation</p>
