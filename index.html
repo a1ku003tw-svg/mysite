@@ -8,12 +8,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,600&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* 沿用原本你喜歡的高清背景圖 */
-            --bg-url: url('https://img.midjourney.com/fcaf8efc53b8991473152d5e794ba19b/0_1.png');
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --button-hover: rgba(255, 255, 255, 0.12);
+            /* 背景基礎色 (深橘紅) */
+            --bg-color-top: #2a0a04; /* 極深橘紅 */
+            --bg-color-bottom: #140502; /* 接近黑色的深橘 */
+            
+            /* 毛玻璃按鈕設定 */
+            --glass-bg: rgba(255, 255, 255, 0.04); /* 稍微降低透明度適應新背景 */
+            --button-hover: rgba(255, 255, 255, 0.1);
+            
+            /* 文字與強調色 */
             --text-color: #ffffff;
-            --accent-white: rgba(255, 255, 255, 0.15);
+            --accent-orange: #ffb380; /* 淡橘色用於強調 */
+            --soft-white: rgba(255, 255, 255, 0.12); /* 柔光漸層色 */
         }
 
         * {
@@ -23,7 +29,7 @@
 
         body {
             font-family: 'Playfair Display', 'Noto Serif TC', serif;
-            background-color: #060a12;
+            background-color: var(--bg-color-bottom);
             color: var(--text-color);
             display: flex;
             justify-content: center;
@@ -33,33 +39,33 @@
             position: relative;
         }
 
-        /* 複合背景層：原圖 + 白色漸層 + 呼吸動效 */
+        /* 複合背景層：深橘紅漸層 + 白色柔光 + 呼吸動效 */
         .bg-layer {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
-                /* 頂部與中心白色柔光漸層 */
-                radial-gradient(circle at 50% 30%, var(--accent-white) 0%, transparent 60%),
-                linear-gradient(to bottom, transparent, rgba(0,0,0,0.4)),
-                var(--bg-url);
+                /* 頂部白色柔光漸層 (增加深邃感) */
+                radial-gradient(circle at 50% 25%, var(--soft-white) 0%, transparent 65%),
+                /* 深橘紅線性漸層 */
+                linear-gradient(to bottom, var(--bg-color-top), var(--bg-color-bottom));
             background-size: cover;
             background-position: center;
             z-index: -2;
-            animation: bgMove 20s infinite alternate ease-in-out;
+            animation: bgMove 22s infinite alternate ease-in-out;
         }
 
         @keyframes bgMove {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.08); }
+            0% { transform: scale(1) translateY(0); }
+            100% { transform: scale(1.06) translateY(-1%); }
         }
 
-        /* 高質感動態噪點層 (摩沙感) */
+        /* 高質感動態噪點層 (磨沙質感) */
         body::before {
             content: "";
             position: fixed;
             top: -50%; left: -50%; width: 200%; height: 200%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3%3Ffilter id='noiseFilter'%3%3FfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3%3F/filter%3%3F%3Frect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3%3F/svg%3%3F");
-            opacity: 0.07;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3%3Ffilter id='noiseFilter'%3%3FfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3%3F/filter%3%3F%3Frect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3%3F/svg%3%3F");
+            opacity: 0.06; /* 噪點強度 */
             pointer-events: none;
             z-index: -1;
             animation: noiseAnim 0.2s infinite steps(2);
@@ -67,112 +73,138 @@
 
         @keyframes noiseAnim {
             0% { transform: translate(0,0); }
-            10% { transform: translate(-1%,-1%); }
-            20% { transform: translate(1%,1%); }
-            30% { transform: translate(-2%,1%); }
-            100% { transform: translate(1%,-1%); }
+            15% { transform: translate(-1.5%,-1%); }
+            30% { transform: translate(1.5%,1%); }
+            45% { transform: translate(-2.5%,1.5%); }
+            100% { transform: translate(1.5%,-1.5%); }
         }
 
         .container {
             width: 90%;
             max-width: 420px;
             text-align: center;
-            padding: 40px 0;
-            animation: containerIn 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+            padding: 50px 0;
+            animation: containerIn 1.5s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        /* 頭像呼吸光暈 */
+        /* 新頭像樣式 */
         .profile-img {
-            width: 140px;
-            height: 140px;
+            width: 145px; /* 稍微放大 */
+            height: 145px;
             border-radius: 50%;
             object-fit: cover;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 0 30px rgba(255,255,255,0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 35px rgba(255, 120, 80, 0.15); /* 微弱的橘紅色光暈 */
             margin-bottom: 25px;
-            position: relative;
-            transition: 0.5s;
+            transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1);
         }
         
         .profile-img:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 40px rgba(255,255,255,0.2);
+            transform: scale(1.06);
+            box-shadow: 0 0 45px rgba(255, 120, 80, 0.3);
+            border-color: rgba(255, 255, 255, 0.6);
         }
 
         h1 {
-            font-size: 2.4rem;
+            font-size: 2.5rem;
             font-weight: 600;
             letter-spacing: 5px;
             margin-bottom: 12px;
-            text-shadow: 0 5px 20px rgba(0,0,0,0.6);
+            text-shadow: 0 5px 20px rgba(0,0,0,0.7);
         }
 
         .bio {
-            font-size: 0.85rem;
-            margin-bottom: 45px;
-            opacity: 0.9;
-            letter-spacing: 2px;
-            color: #d1d9e6;
+            font-size: 0.88rem;
+            margin-bottom: 50px;
+            opacity: 0.85;
+            letter-spacing: 2.5px;
+            color: #e0d0cc; /* 稍微偏暖的文字色 */
             text-transform: uppercase;
         }
 
         .links-wrapper {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 22px;
         }
 
         .link-card {
             background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(25px); /* 加強毛玻璃 */
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             padding: 18px 25px;
             border-radius: 100px;
             text-decoration: none;
             color: white;
-            font-size: 0.95rem;
+            font-size: 0.98rem;
             display: flex;
             align-items: center;
-            transition: all 0.4s ease;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
             position: relative;
             overflow: hidden;
         }
 
         .link-card i {
-            font-size: 1.2rem;
-            width: 30px;
+            font-size: 1.25rem;
+            width: 35px;
             text-align: left;
+            opacity: 0.9;
         }
 
         .link-card span {
             flex: 1;
             text-align: center;
-            margin-right: 30px;
+            margin-right: 35px; /* 對齊修正 */
             letter-spacing: 2px;
+        }
+
+        /* 懸停光效 */
+        .link-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+            transition: 0.6s;
+        }
+
+        .link-card:hover::before {
+            left: 100%;
         }
 
         .link-card:hover {
             background: var(--button-hover);
-            transform: translateY(-4px);
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transform: translateY(-5px) scale(1.01);
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.35);
         }
 
         .email-section {
-            margin-top: 60px;
-            font-size: 0.8rem;
+            margin-top: 65px;
+            font-size: 0.82rem;
             opacity: 0.6;
+            letter-spacing: 1px;
+        }
+
+        .email-section p {
+            margin-bottom: 8px;
         }
 
         .email-section a {
-            color: white;
+            color: var(--accent-orange);
             text-decoration: none;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
+            border-bottom: 1px solid rgba(255, 179, 128, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .email-section a:hover {
+            border-bottom: 1px solid rgba(255, 179, 128, 0.7);
+            opacity: 1;
         }
 
         @keyframes containerIn {
-            from { opacity: 0; transform: translateY(40px) scale(0.98); }
+            from { opacity: 0; transform: translateY(40px) scale(0.97); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
     </style>
@@ -182,7 +214,7 @@
     <div class="bg-layer"></div>
 
     <div class="container">
-        <img src="https://i.pinimg.com/736x/fc/af/8e/fcaf8efc53b8991473152d5e794ba19b.jpg" alt="Shenirite" class="profile-img">
+        <img src="https://meee.com.tw/8RV9pjm" alt="Shenirite" class="profile-img">
         
         <h1>Shenirite</h1>
         <p class="bio">KPOP ． Visual Motion Edit ． Animation</p>
@@ -210,7 +242,7 @@
         </div>
 
         <div class="email-section">
-            <p style="margin-bottom: 8px;">Business Inquiries</p>
+            <p>Business Inquiries</p>
             <p><i class="fa-solid fa-envelope" style="margin-right: 5px;"></i> Gmail • <a href="mailto:a1ku003tw@gmail.com">a1ku003tw@gmail.com</a></p>
         </div>
     </div>
